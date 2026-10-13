@@ -1,40 +1,21 @@
-# SPDX-FileCopyrightText: Copyright 2022-2025 Arm Limited and/or its
-# affiliates <open-source-office@arm.com>
-# SPDX-License-Identifier: Apache-2.0
-#
-#  Licensed under the Apache License, Version 2.0 (the "License");
-#  you may not use this file except in compliance with the License.
-#  You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS,
-#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#  See the License for the specific language governing permissions and
-#  limitations under the License.
-
 name: Run NUCLEO_H563ZI Release
-on:
-
-  workflow_dispatch:
-  
+'on':
+  workflow_dispatch: null
 jobs:
   CI:
-    runs-on: [self-hosted, rsp-p5-01]
-
+    runs-on:
+    - self-hosted
+    - rsp-p5-01
     steps:
     - name: Checkout repository
       uses: actions/checkout@v7
-
     - name: Download Build Artifact
       uses: dawidd6/action-download-artifact@v21
       with:
         workflow: Build_NUCLEO_H563ZI_Release.yml
         name: NUCLEO_H563ZI@Release
         path: ./artifact
-
     - name: Flash-Download-Test for NUCLEO_H563ZI@Release
       working-directory: ./artifact/out
-      run: | 
+      run: |
         pyocd load --uid 001700054142501320353451 --cbuild-run TrafficLight+NUCLEO_H563ZI.cbuild-run.yml
